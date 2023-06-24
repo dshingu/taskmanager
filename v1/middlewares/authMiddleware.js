@@ -15,7 +15,7 @@ module.exports = () => {
 
         try {
             const payload = Jwt.VerifyAccessToken(token);
-            req.body.payload = payload;
+            req.headers['payload'] = payload;
         }
         catch (error) {
             console.log(error.message);
