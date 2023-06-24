@@ -1,8 +1,10 @@
 const Jwt = require('../../utils/jwt');
+const User = require('../models/User');
+const asyncHandler = require('express-async-handler');
 
 module.exports = () => {
 
-    return (req, res, next) => {
+    return asyncHandler(async(req, res, next) => {
 
         const {authorization} = req.headers;
         let bearer, token;
@@ -15,7 +17,14 @@ module.exports = () => {
 
         try {
             const payload = Jwt.VerifyAccessToken(token);
-            req.headers['payload'] = payload;
+            try {
+                const user = await User.findById(payload.uid);
+                req.user = user;
+            } catch (e) {
+                return res.status(401).json({message: 'User not found.'});
+            }
+            
+            
         }
         catch (error) {
             console.log(error.message);
@@ -23,6 +32,6 @@ module.exports = () => {
 
         next();
 
-    }
+    });
 
 };
