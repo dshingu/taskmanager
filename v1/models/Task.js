@@ -24,7 +24,7 @@ const taskSchema = new mongoose.Schema({
     },
     due_at: {
         type: Date,
-        default: null
+        required: true
     },
     completed_at: {
         type: Date,
