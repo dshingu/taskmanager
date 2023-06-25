@@ -30,4 +30,10 @@ const userSchema = new mongoose.Schema({
     }
 });
 
+userSchema.virtual('tasks', {
+    ref: 'Task',
+    localField: '_id',
+    foreignField: 'uid'
+})
+
 module.exports = new mongoose.model("User", userSchema);
