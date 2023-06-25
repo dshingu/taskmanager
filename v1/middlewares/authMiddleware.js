@@ -19,7 +19,7 @@ module.exports = () => {
             const payload = Jwt.VerifyAccessToken(token);  
   
             if (new Date(payload.exp * 1000) < new Date()) {
-                return res.status(440).json({message: 'Authentication required.'})
+                return res.status(440).json({message: 'Authentication timed out.'})
             }
             
             const user = await User.findById(payload.uid);
