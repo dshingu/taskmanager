@@ -1,5 +1,6 @@
 const asyncHandler = require('express-async-handler');
 const authService = require('../services/authService');
+const mail = require('../services/Mailer');
 
 module.exports = {
 
@@ -35,6 +36,6 @@ module.exports = {
 
     reset: asyncHandler(async(req, res) =>{
         res.status(200).json('ok');
-    }) 
+    })
 
 };
