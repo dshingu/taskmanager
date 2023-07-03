@@ -26,6 +26,9 @@ const userSchema = new mongoose.Schema({
     methods: {
         validatePassword:  async function(password) {
             return (await bcrypt.compare(password, this.password));
+        },
+        setPassword: async function(password) {
+            this.password = await bcrypt.hash(password, parseInt(process.env.SALT));
         }
     }
 });

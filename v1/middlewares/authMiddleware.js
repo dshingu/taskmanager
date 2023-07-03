@@ -23,6 +23,7 @@ module.exports = () => {
             }
             
             const user = await User.findById(payload.uid);
+            if (!user || (user.token !== token)) return res.status(401).json({message: 'Access denied.'});
             req.user = user;
         }
         catch (error) {

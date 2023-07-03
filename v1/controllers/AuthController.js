@@ -1,6 +1,5 @@
 const asyncHandler = require('express-async-handler');
 const authService = require('../services/authService');
-const mail = require('../services/Mailer');
 
 module.exports = {
 
@@ -30,12 +29,23 @@ module.exports = {
         if(user) {
             return res.status(200).json(user);
         }
-
         res.status(400).json({message: 'User could not be created.'});
     }),
 
-    reset: asyncHandler(async(req, res) =>{
-        res.status(200).json('ok');
+    requestReset: asyncHandler(async(req, res) => {
+        const {email} = req.body;
+        const request = await authService.requestReset(email);
+        res.status(200).json({message:request[1]});
+    }),
+
+    validateResetToken: asyncHandler(async(req, res) => {
+        res.status(200).json(1);
+    }),
+
+    reset: asyncHandler(async(req, res) => {
+        
+        const reset = await authService.resetPassword(req);
+        return reset[0] === true ? res.status(200).json({message: reset[1]}) : res.status(400).json({message: reset[1]});
     })
 
 };
